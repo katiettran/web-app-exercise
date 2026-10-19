@@ -8,7 +8,10 @@ To create a mobile-friendly platform that helps NYU students reconnect with thei
 
 ## User stories
 
-See instructions. Delete this line and place a link to the user stories here.
+Our user stories are tracked as GitHub Issues.
+
+[View User Stories](https://github.com/katiettran/web-app-exercise/issues)
+
 
 ## Steps necessary to run the software
 
