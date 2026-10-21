@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Report an Item</h1>
+<p>Enter information about your lost or found item.</p>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+
+    <label>Lost or Found</label>
+    <select name="type" required>
+        <option value="lost" {% if request.form.get('type', report_type) == 'lost' %}selected{% endif %}>Lost</option>
+        <option value="found" {% if request.form.get('type', report_type) == 'found' %}selected{% endif %}>Found</option>
+    </select>
+
+    <label>Item Name</label>
+    <input type="text" name="item" value="{{ request.form.get('item', '') }}" required>
+
+    <label>Category</label>
+    <input type="text" name="category" value="{{ request.form.get('category', '') }}" required>
+
+    <label>Date</label>
+    <input type="date" name="date" value="{{ request.form.get('date', '') }}" required>
+
+    <label>Location</label>
+    <input type="text" name="location" value="{{ request.form.get('location', '') }}" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="4">{{ request.form.get('description', '') }}</textarea>
+
+    <label>Contact Information</label>
+    <input type="text" name="contact" value="{{ request.form.get('contact', '') }}" required>
+
+    <button type="submit">Submit</button>
+
+</form>
+
+{% endblock %}
