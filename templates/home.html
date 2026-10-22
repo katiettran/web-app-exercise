@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NYU Lost & Found</title>
+</head>
+<body>
+    <h1>NYU Lost & Found</h1>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% elif reports %}
+        {% for report in reports %}
+            <article>
+                <h2>{{ report.item_name }}</h2>
+                <p>{{ report.status }}</p>
+                <p>{{ report.location }}</p>
+                <p>{{ report.created_at }}</p>
+            </article>
+        {% endfor %}
+    {% else %}
+        <p>No reports yet.</p>
+    {% endif %}
+</body>
+</html>
