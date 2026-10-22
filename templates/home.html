@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NYU Lost & Found</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+
     <h1>NYU Lost & Found</h1>
+    <p>Lost something? Found something? Let's help reunite items with their owners.</p>
+
+    <a href="/reports/new">Report an Item</a>
+    <a href="/reports">Browse Reports</a>
+
+<h2>Recent Reports</h2>
     {% if error %}
         <p>{{ error }}</p>
     {% elif reports %}
@@ -16,10 +17,10 @@
                 <p>{{ report.status }}</p>
                 <p>{{ report.location }}</p>
                 <p>{{ report.created_at }}</p>
+                <a href="/reports/{{ report.id }}">View Details</a>
             </article>
         {% endfor %}
     {% else %}
         <p>No reports yet.</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}
