@@ -4,11 +4,14 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-See instructions. Delete this line and place the Product Vision Statement here.
+To create a mobile-friendly platform that helps NYU students reconnect with their lost items by allowing users to report lost or found items, browse listings, and search for missing items across campus.
 
 ## User stories
 
-See instructions. Delete this line and place a link to the user stories here.
+Our user stories are tracked as GitHub Issues.
+
+[View User Stories](https://github.com/katiettran/web-app-exercise/issues)
+
 
 ## Steps necessary to run the software
 

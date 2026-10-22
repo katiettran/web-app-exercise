@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NYU Lost and Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h2>NYU Lost and Found</h2>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/reports">Browse Items</a>
+            <a href="/reports/new">Report Item</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>NYU Lost and Found</p>
+    </footer>
+
+</body>
+</html>
