@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>NYU Lost & Found</h1>
+<p>Find and report lost items around NYU.</p>
+
+<div class="card">
+    <h2>Lost something?</h2>
+    <p>Create a report so others can help find it.</p>
+    <a class="btn" href="/report/lost">Report Lost Item</a>
+</div>
+
+<div class="card">
+    <h2>Found something?</h2>
+    <p>Help return an item to its owner.</p>
+    <a class="btn" href="/report/found">Report Found Item</a>
+</div>
+
+<h2>Recent Reports</h2>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% elif reports %}
+    {% for report in reports %}
+        <div class="card">
+            <h3>{{ report.item_name }}</h3>
+            <p>Status: {{ report.status }}</p>
+            <p>Location: {{ report.location }}</p>
+            <p>Date: {{ report.created_at }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No reports yet.</p>
+{% endif %}
+
+{% endblock %}

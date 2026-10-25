@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Item Details</h1>
+
+<div class="card">
+    <h2>{{ report.item }}</h2>
+    <p><strong>Type:</strong> {{ report.type }}</p>
+    <p><strong>Category:</strong> {{ report.category }}</p>
+    <p><strong>Date:</strong> {{ report.date }}</p>
+    <p><strong>Location:</strong> {{ report.location }}</p>
+    <p><strong>Description:</strong> {{ report.description }}</p>
+    <p><strong>Contact:</strong> {{ report.contact }}</p>
+
+    <a class="btn" href="/reports/{{ report._id }}/edit">Edit Report</a>
+    <a class="btn" href="/reports/{{ report._id }}/delete">Delete Report</a>
+</div>
+
+<a href="/reports">Back to Reports</a>
+
+{% endblock %}

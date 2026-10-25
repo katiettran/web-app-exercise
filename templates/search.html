@@ -1,0 +1,45 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Search Items</h1>
+<p>Search for lost and found items around NYU.</p>
+
+<form method="GET" action="/reports">
+    <label>Item Name</label>
+    <input type="text" name="item" value="{{ request.args.get('item', '') }}">
+
+    <label>Category</label>
+    <input type="text" name="category" value="{{ request.args.get('category', '') }}">
+
+    <label>Location</label>
+    <input type="text" name="location" value="{{ request.args.get('location', '') }}">
+
+    <label>Lost or Found</label>
+    <select name="type">
+        <option value="">All Items</option>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<h2>Results</h2>
+
+{% if reports %}
+    {% for report in reports %}
+        <div class="card">
+            <h3>{{ report.item }}</h3>
+            <p>Type: {{ report.type }}</p>
+            <p>Category: {{ report.category }}</p>
+            <p>Location: {{ report.location }}</p>
+            <a href="/reports/{{ report._id }}">View Details</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No matching items found.</p>
+{% endif %}
+
+{% endblock %}

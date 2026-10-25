@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit Report</h1>
+<p>Update the information about your item.</p>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+
+    <label>Lost or Found</label>
+    <select name="type" required>
+        <option value="lost" {% if report.type == "lost" %}selected{% endif %}>Lost</option>
+        <option value="found" {% if report.type == "found" %}selected{% endif %}>Found</option>
+    </select>
+
+    <label>Item Name</label>
+    <input type="text" name="item" value="{{ report.item }}" required>
+
+    <label>Category</label>
+    <input type="text" name="category" value="{{ report.category }}" required>
+
+    <label>Date</label>
+    <input type="date" name="date" value="{{ report.date }}" required>
+
+    <label>Location</label>
+    <input type="text" name="location" value="{{ report.location }}" required>
+
+    <label>Description</label>
+    <textarea name="description" rows="4">{{ report.description }}</textarea>
+
+    <label>Contact Information</label>
+    <input type="text" name="contact" value="{{ report.contact }}" required>
+
+    <button type="submit">Save Changes</button>
+
+</form>
+
+{% endblock %}
