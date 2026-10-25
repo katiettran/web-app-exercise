@@ -65,6 +65,16 @@ The browse_reports route passes reports and error to templates/browse.html. Each
 
 The initial browse template reuses home.html. Yash will replace it with the browse page for task #14.
 
+6. Viewing the Report Detail
+
+The `report_detail` route serves `/reports/<report_id>`.
+
+It passes `report` and `error` to `templates/report_detail.html`. The report includes all seven form fields, a string `id`, and a readable UTC `created_at`.
+
+Malformed IDs and missing reports return 404. Database failures return 503 with a clear error message.
+
+The starter template displays the item name or error. Yash will build the full details page in task #19.
+
 ## Task boards
 
 See instructions. Delete this line and place a link to the task boards here.
