@@ -57,7 +57,13 @@ Make sure to keep `.env` out of Git.
 python -m flask --app app run --port 5001
 ```
 
-Open http://127.0.0.1:5001 in a browser.
+6. Browse reports
+
+Open http://127.0.0.1:5001/reports to browse all reports, ordered newest first.
+
+The browse_reports route passes reports and error to templates/browse.html. Each report includes its original fields, a string id, and a readable UTC created_at.
+
+The initial browse template reuses home.html. Yash will replace it with the browse page for task #14.
 
 ## Task boards
 

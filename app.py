@@ -26,3 +26,21 @@ def home():
         error = "Reports could not be loaded. Please try again."
 
     return render_template("home.html", reports=reports, error=error)
+@app.route("/reports")
+def browse_reports():
+    reports = []
+    error = ""
+
+    try:
+        documents = db.reports.find({}).sort("created_at", -1)
+
+        for report in documents:
+            report["id"] = str(report["_id"])
+            report["created_at"] = report["created_at"].strftime("%Y-%m-%d %H:%M UTC")
+            reports.append(report)
+
+    except PyMongoError:
+        reports = []
+        error = "Reports could not be loaded. Please try again."
+
+    return render_template("browse.html", reports=reports, error=error)
