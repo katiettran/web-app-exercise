@@ -10,33 +10,45 @@
 <p class="error">{{ error }}</p>
 {% endif %}
 
-<form method="POST">
+{% if errors %}
+    {% for message in errors.values() %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
 
-    <label>Lost or Found</label>
-    <select name="type" required>
-        <option value="lost" {% if request.form.get('type', report_type) == 'lost' %}selected{% endif %}>Lost</option>
-        <option value="found" {% if request.form.get('type', report_type) == 'found' %}selected{% endif %}>Found</option>
+<form method="POST" action="/reports/new">
+
+    <label for="status">Lost or Found</label>
+    <select id="status" name="status" required>
+        <option value="lost" {% if form.get('status', '') == 'lost' %}selected{% endif %}>Lost</option>
+        <option value="found" {% if form.get('status', '') == 'found' %}selected{% endif %}>Found</option>
     </select>
 
-    <label>Item Name</label>
-    <input type="text" name="item" value="{{ request.form.get('item', '') }}" required>
+    <label for="item_name">Item Name</label>
+    <input type="text" id="item_name" name="item_name"
+           value="{{ form.get('item_name', '') }}" required>
 
-    <label>Category</label>
-    <input type="text" name="category" value="{{ request.form.get('category', '') }}" required>
+    <label for="category">Category</label>
+    <input type="text" id="category" name="category"
+           value="{{ form.get('category', '') }}" required>
 
-    <label>Date</label>
-    <input type="date" name="date" value="{{ request.form.get('date', '') }}" required>
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date"
+           value="{{ form.get('date', '') }}" required>
 
-    <label>Location</label>
-    <input type="text" name="location" value="{{ request.form.get('location', '') }}" required>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location"
+           value="{{ form.get('location', '') }}" required>
 
-    <label>Description</label>
-    <textarea name="description" rows="4">{{ request.form.get('description', '') }}</textarea>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="4"
+              required>{{ form.get('description', '') }}</textarea>
 
-    <label>Contact Information</label>
-    <input type="text" name="contact" value="{{ request.form.get('contact', '') }}" required>
+    <label for="contact_info">Contact Information</label>
+    <input type="text" id="contact_info" name="contact_info"
+           value="{{ form.get('contact_info', '') }}" required>
 
-    <button type="submit">Submit</button>
+    <button type="submit">Submit Report</button>
 
 </form>
 
