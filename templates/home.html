@@ -1,25 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NYU Lost & Found</title>
-</head>
-<body>
-    <h1>NYU Lost & Found</h1>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% elif reports %}
-        {% for report in reports %}
-            <article>
-                <h2>{{ report.item_name }}</h2>
-                <p>{{ report.status }}</p>
-                <p>{{ report.location }}</p>
-                <p>{{ report.created_at }}</p>
-            </article>
-        {% endfor %}
-    {% else %}
-        <p>No reports yet.</p>
-    {% endif %}
-</body>
-</html>
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>NYU Lost & Found</h1>
+<p>Lost something? Found something? Let's help reunite items with their owners.</p>
+
+<div class="card">
+    <h2>Lost something?</h2>
+    <p>Create a report so others can help find it.</p>
+    <a class="btn" href="/reports/new">Report Lost Item</a>
+</div>
+
+<div class="card">
+    <h2>Found something?</h2>
+    <p>Help return an item to its owner.</p>
+    <a class="btn" href="/reports/new">Report Found Item</a>
+</div>
+
+<a class="btn" href="/reports">Browse Reports</a>
+
+<h2>Recent Reports</h2>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% elif reports %}
+    {% for report in reports %}
+        <div class="card">
+            <h3>{{ report.item_name }}</h3>
+            <p>Status: {{ report.status }}</p>
+            <p>Location: {{ report.location }}</p>
+            <p>Date: {{ report.created_at }}</p>
+            <a href="/reports/{{ report.id }}">View Details</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No reports yet.</p>
+{% endif %}
+
+{% endblock %}

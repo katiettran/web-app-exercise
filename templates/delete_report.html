@@ -1,0 +1,27 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Delete Report</h1>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% elif report %}
+    <div class="card">
+        <p>
+            Are you sure you want to delete
+            <strong>{{ report.item_name }}</strong>?
+        </p>
+
+        <form method="POST">
+            <button type="submit">Yes, Delete</button>
+        </form>
+
+        <a href="/reports/{{ report.id }}">Cancel</a>
+    </div>
+{% else %}
+    <p>Report not found.</p>
+{% endif %}
+
+{% endblock %}
