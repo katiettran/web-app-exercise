@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit Report</h1>
+<p>Update the information about your item.</p>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+{% if errors %}
+    {% for message in errors.values() %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form method="POST">
+
+    <label for="status">Lost or Found</label>
+    <select id="status" name="status" required>
+        <option value="lost" {% if form.get('status', report.status) == 'lost' %}selected{% endif %}>Lost</option>
+        <option value="found" {% if form.get('status', report.status) == 'found' %}selected{% endif %}>Found</option>
+    </select>
+
+    <label for="item_name">Item Name</label>
+    <input type="text" id="item_name" name="item_name"
+           value="{{ form.get('item_name', report.item_name) }}" required>
+
+    <label for="category">Category</label>
+    <input type="text" id="category" name="category"
+           value="{{ form.get('category', report.category) }}" required>
+
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date"
+           value="{{ form.get('date', report.date) }}" required>
+
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location"
+           value="{{ form.get('location', report.location) }}" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="4"
+              required>{{ form.get('description', report.description) }}</textarea>
+
+    <label for="contact_info">Contact Information</label>
+    <input type="text" id="contact_info" name="contact_info"
+           value="{{ form.get('contact_info', report.contact_info) }}" required>
+
+    <button type="submit">Save Changes</button>
+
+</form>
+
+{% endblock %}
