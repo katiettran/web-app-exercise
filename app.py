@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo.errors import PyMongoError
 import datetime
+from bson.objectid import ObjectId
 
 load_dotenv()
 
@@ -81,14 +82,17 @@ def create_report():
             document["created_at"] = datetime.datetime.utcnow()
 
             try:
-                db.reports.insert_one(document)
-
+                result = db.reports.insert_one(document)
+    
             except PyMongoError:
                 error = "Submission could not be confirmed. Check the listings before trying again."
                 status_code = 503
-
+    
             else:
-                return redirect(url_for("home"))
+                return redirect(url_for(
+                    "report_confirmation",
+                    report_id=str(result.inserted_id)
+                ))
 
     return render_template(
         "report_form.html",
@@ -96,3 +100,37 @@ def create_report():
         errors=errors,
         error=error
     ), status_code
+@app.route("/reports/<report_id>/confirmation")
+def report_confirmation(report_id):
+    if not ObjectId.is_valid(report_id):
+        return render_template(
+            "home.html",
+            reports=[],
+            error="Report not found."
+        ), 404
+
+    try:
+        report = db.reports.find_one({"_id": ObjectId(report_id)})
+
+    except PyMongoError:
+        return render_template(
+            "home.html",
+            reports=[],
+            error="Confirmation could not be loaded. Check the listings before submitting again."
+        ), 503
+
+    if report is None:
+        return render_template(
+            "home.html",
+            reports=[],
+            error="Report not found."
+        ), 404
+
+    report["id"] = str(report["_id"])
+    report["created_at"] = report["created_at"].strftime("%Y-%m-%d %H:%M UTC")
+
+    return render_template(
+        "report_confirmation.html",
+        report=report,
+        error=""
+    )
