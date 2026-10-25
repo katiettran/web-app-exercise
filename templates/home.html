@@ -4,7 +4,7 @@
 {% block content %}
 
 <h1>NYU Lost & Found</h1>
-<p>Find and report lost items around NYU.</p>
+<p>Lost something? Found something? Let's help reunite items with their owners.</p>
 
 <div class="card">
     <h2>Lost something?</h2>
@@ -18,6 +18,8 @@
     <a class="btn" href="/reports/new">Report Found Item</a>
 </div>
 
+<a class="btn" href="/reports">Browse Reports</a>
+
 <h2>Recent Reports</h2>
 
 {% if error %}
@@ -29,6 +31,7 @@
             <p>Status: {{ report.status }}</p>
             <p>Location: {{ report.location }}</p>
             <p>Date: {{ report.created_at }}</p>
+            <a href="/reports/{{ report.id }}">View Details</a>
         </div>
     {% endfor %}
 {% else %}

@@ -7,7 +7,7 @@
 <p>Update the information about your item.</p>
 
 {% if error %}
-<p class="error">{{ error }}</p>
+    <p class="error">{{ error }}</p>
 {% endif %}
 
 {% if errors %}
@@ -16,6 +16,7 @@
     {% endfor %}
 {% endif %}
 
+{% if report %}
 <form method="POST">
 
     <label for="status">Lost or Found</label>
@@ -49,7 +50,9 @@
            value="{{ form.get('contact_info', report.contact_info) }}" required>
 
     <button type="submit">Save Changes</button>
+    <a href="/reports/{{ report.id }}">Cancel</a>
 
 </form>
+{% endif %}
 
 {% endblock %}
