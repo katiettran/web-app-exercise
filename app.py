@@ -3,6 +3,7 @@ import pymongo
 from dotenv import load_dotenv
 from flask import Flask, render_template
 from pymongo.errors import PyMongoError
+from bson.objectid import ObjectId
 
 load_dotenv()
 
@@ -11,6 +12,39 @@ app = Flask(__name__)
 connection = pymongo.MongoClient(os.environ["MONGO_URI"])
 db = connection[os.environ["MONGO_DBNAME"]]
 
+@app.route("/reports/<report_id>")
+def report_detail(report_id):
+    report = {}
+    error = ""
+    status_code = 200
+
+    if not ObjectId.is_valid(report_id):
+        error = "Report not found."
+        status_code = 404
+
+    else:
+        try:
+            document = db.reports.find_one({"_id": ObjectId(report_id)})
+
+            if document is None:
+                error = "Report not found."
+                status_code = 404
+
+            else:
+                report = document
+                report["id"] = str(report["_id"])
+                report["created_at"] = report["created_at"].strftime("%Y-%m-%d %H:%M UTC")
+
+        except PyMongoError:
+            report = {}
+            error = "Report could not be loaded. Please try again."
+            status_code = 503
+
+    return render_template(
+        "report_detail.html",
+        report=report,
+        error=error
+    ), status_code
 @app.route("/")
 def home():
     reports = []

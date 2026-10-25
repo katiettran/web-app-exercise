@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if error %}
+        <p>{{ error }}</p>
+    {% elif report %}
+        <h1>{{ report.item_name }}</h1>
+    {% endif %}
+{% endblock %}
