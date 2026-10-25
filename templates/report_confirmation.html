@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Report Submitted!</h1>
+<p>Your report has been submitted successfully.</p>
+
+<a href="/reports/{{ report.id }}">View Report</a>
+<a href="/">Back to Home</a>
+<a href="/reports">Browse Reports</a>
+{% endblock %}
