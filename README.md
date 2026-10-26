@@ -77,4 +77,5 @@ The starter template displays the item name or error. Yash will build the full d
 
 ## Task boards
 
-See instructions. Delete this line and place a link to the task boards here.
+[GitHub Project Board Sprint 1](https://github.com/users/katiettran/projects/1)
+[GitHub Project Board Sprint 2](https://github.com/users/katiettran/projects/3)
