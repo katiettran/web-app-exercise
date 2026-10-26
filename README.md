@@ -12,6 +12,9 @@ To create a mobile-friendly platform that helps NYU students reconnect with thei
 
 [View the Sprint 1 and Sprint 2 boards](https://github.com/katiettran/web-app-exercise/projects)
 
+- [Sprint 1 board](https://github.com/users/katiettran/projects/1)
+- [Sprint 2 board](https://github.com/users/katiettran/projects/3)
+
 ## Steps necessary to run the software
 
 Follow the setup steps below in order, then check that the app works.
@@ -264,4 +267,4 @@ The app runs locally. Deployment is not required.
 
 ## Environment note
 
-The setup uses `requirements.txt`. Its package versions are currently unpinned, so future installations may select different versions. The instructions define the setup order and checks, so make sure to check that you have identical package versions on every computer.
+The setup uses `requirements.txt`. Its package versions are currently unpinned, so future installations may select different versions. The instructions define the setup order and checks and does not guarantee identical package versions on every computer.
