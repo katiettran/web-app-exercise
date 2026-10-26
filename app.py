@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from flask import Flask, render_template
 from pymongo.errors import PyMongoError
 from bson.objectid import ObjectId
+from bson import ObjectId
+from bson.errors import InvalidId
 
 load_dotenv()
 
@@ -14,37 +16,40 @@ db = connection[os.environ["MONGO_DBNAME"]]
 
 @app.route("/reports/<report_id>")
 def report_detail(report_id):
-    report = {}
-    error = ""
-    status_code = 200
+    try:
+        object_id = ObjectId(report_id)
 
-    if not ObjectId.is_valid(report_id):
-        error = "Report not found."
-        status_code = 404
+    except InvalidId:
+        return render_template(
+            "report_detail.html",
+            report={},
+            error="The report you requested could not be found."
+        ), 404
 
-    else:
-        try:
-            document = db.reports.find_one({"_id": ObjectId(report_id)})
+    try:
+        report = db.reports.find_one({"_id": object_id})
 
-            if document is None:
-                error = "Report not found."
-                status_code = 404
+    except PyMongoError:
+        return render_template(
+            "report_detail.html",
+            report={},
+            error="The report could not be loaded. Please try again."
+        ), 503
 
-            else:
-                report = document
-                report["id"] = str(report["_id"])
-                report["created_at"] = report["created_at"].strftime("%Y-%m-%d %H:%M UTC")
+    if report is None:
+        return render_template(
+            "report_detail.html",
+            report={},
+            error="The report you requested could not be found."
+        ), 404
 
-        except PyMongoError:
-            report = {}
-            error = "Report could not be loaded. Please try again."
-            status_code = 503
+    report["id"] = str(report["_id"])
 
     return render_template(
         "report_detail.html",
         report=report,
-        error=error
-    ), status_code
+        error=""
+    )
 @app.route("/")
 def home():
     reports = []

@@ -1,29 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section style="overflow-wrap: anywhere;">
+    <p><a href="{{ url_for('browse_reports') }}">Back to all reports</a></p>
 
-<h1>Item Details</h1>
+    {% if error %}
+        <div class="card">
+            <h1>Report unavailable</h1>
+            <p class="error" role="alert">{{ error }}</p>
+        </div>
+    {% elif report %}
+        <article class="card">
+            <h1>{{ report.item_name }}</h1>
+            <p><strong>Status:</strong> {{ report.status | capitalize }}</p>
+            <p><strong>Category:</strong> {{ report.category }}</p>
+            <p><strong>Date lost or found:</strong> {{ report.date }}</p>
+            <p><strong>Location:</strong> {{ report.location }}</p>
 
-{% if error %}
-    <p class="error">{{ error }}</p>
-{% elif report %}
-    <div class="card">
-        <h2>{{ report.item_name }}</h2>
+            <h2>Description</h2>
+            <p style="white-space: pre-wrap;">{{ report.description }}</p>
 
-        <p><strong>Status:</strong> {{ report.status }}</p>
-        <p><strong>Category:</strong> {{ report.category }}</p>
-        <p><strong>Date:</strong> {{ report.date }}</p>
-        <p><strong>Location:</strong> {{ report.location }}</p>
-        <p><strong>Description:</strong> {{ report.description }}</p>
-        <p><strong>Contact:</strong> {{ report.contact_info }}</p>
-
-        <a class="btn" href="/reports/{{ report.id }}/edit">Edit Report</a>
-        <a class="btn" href="/reports/{{ report.id }}/delete">Delete Report</a>
-    </div>
-{% else %}
-    <p>Report not found.</p>
-{% endif %}
-
-<a href="/reports">Back to Reports</a>
-
+            <h2>Contact information</h2>
+            <p style="white-space: pre-wrap;">{{ report.contact_info }}</p>
+        </article>
+    {% else %}
+        <div class="card">
+            <h1>Report not found</h1>
+            <p>The report you requested could not be found.</p>
+        </div>
+    {% endif %}
+</section>
 {% endblock %}
