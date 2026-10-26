@@ -1,1 +1,52 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
+
+{% block content %}
+<section style="overflow-wrap: anywhere;">
+    <h1>Browse Reports</h1>
+    <p>Lost and found items reported by the NYU community.</p>
+    <p><a href="{{ url_for('home') }}">Back to homepage</a></p>
+
+    <form method="GET" action="{{ url_for('browse_reports') }}">
+        <label for="q">Search by Item Name or Location</label>
+        <input type="text" id="q" name="q" value="{{ q }}">
+
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>All Items</option>
+            <option value="lost" {% if status == 'lost' %}selected{% endif %}>Lost</option>
+            <option value="found" {% if status == 'found' %}selected{% endif %}>Found</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    {% if error %}
+        <div class="card">
+            <p class="error" role="alert">{{ error }}</p>
+            <a href="{{ url_for('browse_reports', q=q, status=status) }}">Try again</a>
+        </div>
+    {% elif reports %}
+        {% for report in reports %}
+            <article class="card">
+                <h2>
+                    <a href="{{ url_for('report_detail', report_id=report.id) }}">{{ report.item_name }}</a>
+                </h2>
+                <p><strong>Status:</strong> {{ report.status | capitalize }}</p>
+                <p><strong>Location:</strong> {{ report.location }}</p>
+                <p><strong>Reported on:</strong> {{ report.created_at }}</p>
+            </article>
+        {% endfor %}
+    {% elif q or status != 'all' %}
+        <div class="card">
+            <h2>No matching reports</h2>
+            <p>Try a different search or status.</p>
+        </div>
+    {% else %}
+        <div class="card">
+            <h2>No reports yet</h2>
+            <p>There are no lost or found reports to browse.</p>
+            <a href="/reports/new">Report a lost or found item</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

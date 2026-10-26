@@ -1,36 +1,20 @@
-
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>Search Items</h1>
-<p>Search for lost and found items around NYU.</p>
+<h1>Search Reports</h1>
 
 <form method="GET" action="/reports/search">
-
     <label for="q">Search by Item Name or Location</label>
-    <input type="text" id="q" name="q"
-           value="{{ request.args.get('q', '') }}"
-           placeholder="e.g. Wallet or Bobst Library">
+    <input type="text" id="q" name="q" value="{{ q }}">
 
     <label for="status">Status</label>
     <select id="status" name="status">
-        <option value="all"
-            {% if request.args.get('status', 'all') == 'all' %}selected{% endif %}>
-            All Items
-        </option>
-        <option value="lost"
-            {% if request.args.get('status') == 'lost' %}selected{% endif %}>
-            Lost
-        </option>
-        <option value="found"
-            {% if request.args.get('status') == 'found' %}selected{% endif %}>
-            Found
-        </option>
+        <option value="all" {% if status == 'all' %}selected{% endif %}>All Items</option>
+        <option value="lost" {% if status == 'lost' %}selected{% endif %}>Lost</option>
+        <option value="found" {% if status == 'found' %}selected{% endif %}>Found</option>
     </select>
 
     <button type="submit">Search</button>
-
 </form>
 
 <h2>Results</h2>
@@ -42,13 +26,12 @@
         <div class="card">
             <h3>{{ report.item_name }}</h3>
             <p>Status: {{ report.status }}</p>
-            <p>Category: {{ report.category }}</p>
             <p>Location: {{ report.location }}</p>
+            <p>Reported: {{ report.created_at }}</p>
             <a href="/reports/{{ report.id }}">View Details</a>
         </div>
     {% endfor %}
 {% else %}
-    <p>No matching items found.</p>
+    <p>No matching reports found.</p>
 {% endif %}
-
 {% endblock %}
