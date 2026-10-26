@@ -1,11 +1,11 @@
 import os
 import pymongo
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo.errors import PyMongoError
 import datetime
 from bson.objectid import ObjectId
-
 load_dotenv()
 
 app = Flask(__name__)
@@ -185,3 +185,66 @@ def browse_reports():
         error = "Reports could not be loaded. Please try again."
 
     return render_template("browse.html", reports=reports, error=error)
+@app.route("/reports/new", methods=["GET", "POST"])
+def new_report():
+    if request.method == "GET":
+        return render_template(
+            "report_form.html",
+            form={},
+            errors={},
+            error=""
+        )
+
+    fields = [
+        "status",
+        "item_name",
+        "category",
+        "date",
+        "location",
+        "description",
+        "contact_info"
+    ]
+
+    form = {
+        field: request.form.get(field, "").strip()
+        for field in fields
+    }
+
+    errors = {}
+
+    for field in fields:
+        if not form[field]:
+            errors[field] = f"{field.replace('_', ' ').title()} is required."
+
+    if form["status"] not in ("lost", "found"):
+        errors["status"] = "Please select Lost or Found."
+
+    try:
+        datetime.strptime(form["date"], "%Y-%m-%d")
+    except ValueError:
+        errors["date"] = "Please enter a valid date."
+
+    if errors:
+        return render_template(
+            "report_form.html",
+            form=form,
+            errors=errors,
+            error=""
+        ), 400
+
+    document = {
+        **form,
+        "created_at": datetime.now(timezone.utc)
+    }
+
+    try:
+        result = db.reports.insert_one(document)
+    except PyMongoError:
+        return render_template(
+            "report_form.html",
+            form=form,
+            errors={},
+            error="Report could not be saved. Please try again."
+        ), 503
+
+    return redirect(url_for("report_detail", report_id=str(result.inserted_id)))
