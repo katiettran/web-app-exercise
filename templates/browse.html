@@ -1,1 +1,37 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Browse Reports</h1>
+
+<form method="GET" action="/reports">
+    <label for="q">Search by Item Name or Location</label>
+    <input type="text" id="q" name="q" value="{{ q }}">
+
+    <label for="status">Status</label>
+    <select id="status" name="status">
+        <option value="all" {% if status == 'all' %}selected{% endif %}>All Items</option>
+        <option value="lost" {% if status == 'lost' %}selected{% endif %}>Lost</option>
+        <option value="found" {% if status == 'found' %}selected{% endif %}>Found</option>
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% elif reports %}
+    {% for report in reports %}
+        <div class="card">
+            <h2>{{ report.item_name }}</h2>
+            <p>Status: {{ report.status }}</p>
+            <p>Location: {{ report.location }}</p>
+            <p>Reported: {{ report.created_at }}</p>
+            <a href="/reports/{{ report.id }}">View Details</a>
+        </div>
+    {% endfor %}
+{% elif q or status != 'all' %}
+    <p>No matching reports found.</p>
+{% else %}
+    <p>No reports yet.</p>
+{% endif %}
+{% endblock %}

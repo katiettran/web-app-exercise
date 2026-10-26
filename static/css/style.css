@@ -28,6 +28,7 @@ main {
 }
 
 .card {
+    overflow-wrap: anywhere;
     background-color: white;
     padding: 15px;
     margin-bottom: 15px;
