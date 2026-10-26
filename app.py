@@ -70,11 +70,19 @@ def browse_reports():
 
         for report in documents:
             report["id"] = str(report["_id"])
-            report["created_at"] = report["created_at"].strftime("%Y-%m-%d %H:%M UTC")
+            report["created_at"] = report["created_at"].strftime(
+                "%Y-%m-%d %H:%M UTC"
+            )
             reports.append(report)
 
     except PyMongoError:
         reports = []
         error = "Reports could not be loaded. Please try again."
 
-    return render_template("browse.html", reports=reports, error=error)
+        return render_template(
+            "browse.html", reports=reports, error=error
+        ), 503
+
+    return render_template(
+        "browse.html", reports=reports, error=error
+    )
