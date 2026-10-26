@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Item Details</h1>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% elif report %}
+    <div class="card">
+        <h2>{{ report.item_name }}</h2>
+
+        <p><strong>Status:</strong> {{ report.status }}</p>
+        <p><strong>Category:</strong> {{ report.category }}</p>
+        <p><strong>Date:</strong> {{ report.date }}</p>
+        <p><strong>Location:</strong> {{ report.location }}</p>
+        <p><strong>Description:</strong> {{ report.description }}</p>
+        <p><strong>Contact:</strong> {{ report.contact_info }}</p>
+
+        <a class="btn" href="/reports/{{ report.id }}/edit">Edit Report</a>
+        <a class="btn" href="/reports/{{ report.id }}/delete">Delete Report</a>
+    </div>
+{% else %}
+    <p>Report not found.</p>
+{% endif %}
+
+<a href="/reports">Back to Reports</a>
+
+{% endblock %}
